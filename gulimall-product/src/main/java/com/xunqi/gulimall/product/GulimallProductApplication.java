@@ -21,8 +21,10 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *              1）、导入数据库的驱动。https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-versions.html
  *              2）、在application.yml配置数据源相关信息
  *          2、配置MyBatis-Plus；
- *              1）、使用@MapperScan
+ *              1）、使用@MapperScan,告诉对应的mapperdao在哪
  *              2）、告诉MyBatis-Plus，sql映射文件位置
+ *              3）、设置主键自增，主键标注@TableId注解，在yml文件设置id-type=auto
+ *
  *
  * 2、逻辑删除
  *  1）、配置全局的逻辑删除规则（省略）
@@ -56,10 +58,10 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *  2）、使用@ExceptionHandler标注方法可以处理的异常。
  */
 
-@EnableRedisHttpSession     //开启springsession
-@EnableCaching      //开启缓存功能
-@EnableFeignClients(basePackages = "com.xunqi.gulimall.product.feign")
-@EnableDiscoveryClient
+//@EnableRedisHttpSession     //开启springsession
+//@EnableCaching      //开启缓存功能
+//@EnableFeignClients(basePackages = "com.xunqi.gulimall.product.feign")
+//@EnableDiscoveryClient
 @MapperScan("com.xunqi.gulimall.product.dao")
 @SpringBootApplication //(exclude = GlobalTransactionAutoConfiguration.class)
 public class GulimallProductApplication {
