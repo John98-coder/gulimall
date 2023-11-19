@@ -1,6 +1,10 @@
 package com.xunqi.gulimall.product.web;
 
+import com.alibaba.fastjson.TypeReference;
+import com.xunqi.common.utils.R;
+import com.xunqi.gulimall.cart.vo.CartVo;
 import com.xunqi.gulimall.product.entity.CategoryEntity;
+import com.xunqi.gulimall.product.feign.CartFeignService;
 import com.xunqi.gulimall.product.service.CategoryService;
 import com.xunqi.gulimall.product.vo.Catelog2Vo;
 import org.redisson.api.*;
@@ -38,6 +42,9 @@ public class IndexController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @Autowired
+    private CartFeignService cartFeignService;
+
     @GetMapping(value = {"/","index.html"})
     private String indexPage(Model model) {
 
@@ -45,12 +52,19 @@ public class IndexController {
         List<CategoryEntity> categoryEntities = categoryService.getLevel1Categorys();
         model.addAttribute("categories",categoryEntities);
 
+        R r = cartFeignService.getCart();
+        if (r.getCode() == 0) {
+            CartVo cartVo=r.getData(new TypeReference<CartVo>(){});
+            System.out.println(cartVo.getCountNum());
+            System.out.println(cartVo.getCountType());
+//            model.addAttribute("CartVo", cartVo);
+        }
         return "index";
     }
 
 
     //index/json/catalog.json
-    @GetMapping(value = "/index/catalog.json")
+    @GetMapping(value = "/index/json/catalog.json")
     @ResponseBody
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
 
@@ -111,6 +125,7 @@ public class IndexController {
         RLock rLock = readWriteLock.writeLock();
         try {
             //1、改数据加写锁，读数据加读锁
+
             rLock.lock();
             s = UUID.randomUUID().toString();
             ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();

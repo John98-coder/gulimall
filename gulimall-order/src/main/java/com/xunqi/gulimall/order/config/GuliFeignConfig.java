@@ -34,7 +34,7 @@ public class GuliFeignConfig {
 
                     if (request != null) {
                         //2、同步请求头的数据（主要是cookie）
-                        //把老请求的cookie值放到新请求上来，进行一个同步
+                        //把老请求的cookie值放到新请求上来也就是RequestTemplate，进行一个同步
                         String cookie = request.getHeader("Cookie");
                         template.header("Cookie", cookie);
                     }

@@ -25,9 +25,9 @@ public class MyRabbitConfig {
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         this.rabbitTemplate = rabbitTemplate;
-        rabbitTemplate.setMessageConverter(messageConverter());
+        this.rabbitTemplate.setMessageConverter(messageConverter());
         initRabbitTemplate();
-        return rabbitTemplate;
+        return this.rabbitTemplate;
     }
 
     @Bean

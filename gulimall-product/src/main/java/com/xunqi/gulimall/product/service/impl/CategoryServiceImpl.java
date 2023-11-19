@@ -237,7 +237,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             List<Catelog2Vo> catelog2Vos = null;
             if (categoryEntities != null) {
                 catelog2Vos = categoryEntities.stream().map(l2 -> {
-                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(), null, l2.getCatId().toString(), l2.getName().toString());
+                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(), l2.getCatId().toString(), l2.getName().toString(),null );
 
                     //1、找当前二级分类的三级分类封装成vo
                     List<CategoryEntity> level3Catelog = getParent_cid(selectList, l2.getCatId());
@@ -311,17 +311,17 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //（锁的粒度，越细越快:具体缓存的是某个数据，11号商品） product-11-lock
         //RLock catalogJsonLock = redissonClient.getLock("catalogJson-lock");
         //创建读锁
-        RReadWriteLock readWriteLock = redissonClient.getReadWriteLock("catalogJson-lock");
-
-        RLock rLock = readWriteLock.readLock();
-
+//        RReadWriteLock readWriteLock = redissonClient.getReadWriteLock("catalogJson-lock");
+//
+//        RLock rLock = readWriteLock.readLock();
+        RLock lock=redissonClient.getLock("catalogJson-lock");
         Map<String, List<Catelog2Vo>> dataFromDb = null;
         try {
-            rLock.lock();
+            lock.lock();
             //加锁成功...执行业务
             dataFromDb = getDataFromDb();
         } finally {
-            rLock.unlock();
+            lock.unlock();
         }
         //先去redis查询下保证当前的锁是自己的
         //获取值对比，对比成功删除=原子性 lua脚本解锁
@@ -407,7 +407,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             List<Catelog2Vo> catelog2Vos = null;
             if (categoryEntities != null) {
                 catelog2Vos = categoryEntities.stream().map(l2 -> {
-                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(), null, l2.getCatId().toString(), l2.getName().toString());
+                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(), l2.getCatId().toString(), l2.getName().toString(),null);
 
                     //1、找当前二级分类的三级分类封装成vo
                     List<CategoryEntity> level3Catelog = getParent_cid(selectList, l2.getCatId());

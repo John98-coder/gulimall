@@ -64,6 +64,7 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
         // 保存到数据库中
         this.baseMapper.insert(categoryBrandRelation);
+
     }
 
     @Override
@@ -88,6 +89,7 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
             Long brandId = item.getBrandId();
             //查询品牌的详情
             BrandEntity byId = brandService.getById(brandId);
+
             return byId;
         }).collect(Collectors.toList());
 

@@ -25,14 +25,15 @@ public class Catelog2Vo {
      */
     private String catalog1Id;
 
+    private String id;
+
+    private String name;
     /**
      * 三级子分类
      */
     private List<Category3Vo> catalog3List;
 
-    private String id;
 
-    private String name;
 
 
     /**

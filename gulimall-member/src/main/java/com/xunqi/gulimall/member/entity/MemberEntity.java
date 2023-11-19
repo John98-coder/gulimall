@@ -1,5 +1,6 @@
 package com.xunqi.gulimall.member.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -96,16 +97,19 @@ public class MemberEntity implements Serializable {
 	/**
 	 * 社交登录UID
 	 */
+	@TableField(exist = false)
 	private String socialUid;
 
 	/**
 	 * 社交登录TOKEN
 	 */
+	@TableField(exist = false)
 	private String accessToken;
 
 	/**
 	 * 社交登录过期时间
 	 */
+	@TableField(exist = false)
 	private long expiresIn;
 
 }

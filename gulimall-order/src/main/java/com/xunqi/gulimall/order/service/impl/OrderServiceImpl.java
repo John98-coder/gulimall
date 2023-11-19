@@ -204,6 +204,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 Arrays.asList(USER_ORDER_TOKEN_PREFIX + memberResponseVo.getId()),
                 orderToken);
 
+
         if (result == 0L) {
             //令牌验证失败
             responseVo.setCode(1);
@@ -397,10 +398,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         String orderSn = IdWorker.getTimeId();
         OrderEntity orderEntity = builderOrder(orderSn);
 
-        //2、获取到所有的订单项
+        //2、获取到所有的订单项,获取方式是从购物车查询每一个购物项
         List<OrderItemEntity> orderItemEntities = builderOrderItems(orderSn);
 
-        //3、验价(计算价格、积分等信息)
+        //3、(计算价格、积分等信息) 订单项的各个价格计算放到订单实体信息中
         computePrice(orderEntity,orderItemEntities);
 
         createTo.setOrder(orderEntity);

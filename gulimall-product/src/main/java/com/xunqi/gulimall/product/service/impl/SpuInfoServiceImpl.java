@@ -138,7 +138,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         if (r.getCode() != 0) {
             log.error("远程保存spu积分信息失败");
         }
-
+//        int i =10/0;
         //5、保存当前spu对应的所有sku信息：pms_sku_info
         //5、1）、sku的基本信息:pms_sku_info
         List<Skus> skus = vo.getSkus();
@@ -251,15 +251,15 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         //TODO 4、查出当前sku的所有可以被用来检索的规格属性
         List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListforspu(spuId);
-
+        //根据spu查出来的商品获取商品的所有属性id
         List<Long> attrIds = baseAttrs.stream().map(attr -> {
             return attr.getAttrId();
         }).collect(Collectors.toList());
-
+        //获取所有属性中 注意 是所有属性中 可检索的所有属性
         List<Long> searchAttrIds = attrService.selectSearchAttrs(attrIds);
         //转换为Set集合
         Set<Long> idSet = searchAttrIds.stream().collect(Collectors.toSet());
-
+        //在所有可检索属性中找item包含的属性 返回满足条件的ProductAttrValueEntity
         List<SkuEsModel.Attrs> attrsList = baseAttrs.stream().filter(item -> {
             return idSet.contains(item.getAttrId());
         }).map(item -> {

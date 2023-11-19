@@ -17,6 +17,7 @@ import com.xunqi.gulimall.coupon.service.SkuLadderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -53,7 +54,7 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
 
         return new PageUtils(page);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveSkuReduction(SkuReductionTo skuReductionTo) {
 

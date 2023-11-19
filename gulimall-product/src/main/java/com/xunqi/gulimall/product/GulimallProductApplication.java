@@ -58,10 +58,10 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *  2）、使用@ExceptionHandler标注方法可以处理的异常。
  */
 
-//@EnableRedisHttpSession     //开启springsession
-//@EnableCaching      //开启缓存功能
-//@EnableFeignClients(basePackages = "com.xunqi.gulimall.product.feign")
-//@EnableDiscoveryClient
+@EnableRedisHttpSession     //开启springsession
+@EnableCaching      //开启缓存功能
+@EnableFeignClients(basePackages = "com.xunqi.gulimall.product.feign")
+@EnableDiscoveryClient
 @MapperScan("com.xunqi.gulimall.product.dao")
 @SpringBootApplication //(exclude = GlobalTransactionAutoConfiguration.class)
 public class GulimallProductApplication {
